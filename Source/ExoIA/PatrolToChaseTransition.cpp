@@ -10,7 +10,7 @@ bool UPatrolToChaseTransition::IsValid()
 	if (!detector)
 		return true;
 
-	return detector->GetDistance() < 100;
+	return detector->GetDistance() < 200;
 }
 
 void UPatrolToChaseTransition::InitTransition(UFSM* _owner)

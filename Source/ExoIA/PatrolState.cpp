@@ -45,7 +45,7 @@ void UPatrolState::OnUpdate()
 void UPatrolState::OnExit()
 {
 	Super::OnExit();
-
+	movementComponent->StopMoving();
 	UE_LOG(LogTemp, Warning, TEXT("EXIT PATROL"))
 }
 
