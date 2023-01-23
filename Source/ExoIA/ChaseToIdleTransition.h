@@ -3,26 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "State.h"
+#include "Transition.h"
 #include "EnnemyDetector.h"
-#include "ChaseState.generated.h"
+#include "ChaseToIdleTransition.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class EXOIA_API UChaseState : public UState
+class EXOIA_API UChaseToIdleTransition : public UTransition
 {
 	GENERATED_BODY()
-private:
-
+	
 	UPROPERTY(VisibleAnywhere)
 		TObjectPtr<UEnnemyDetector> detector = nullptr;
 
-public:
+protected:
 
-	virtual void OnEnter(UFSM* _owner) override;
-	virtual void OnUpdate() override;
-	virtual void OnExit() override;
-	virtual void DebugState() override;
+	virtual bool IsValid() override;
+	virtual void CallNext() override;
+	virtual void InitTransition(UFSM* _owner) override;
 };

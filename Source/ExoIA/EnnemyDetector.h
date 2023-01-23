@@ -16,13 +16,19 @@ class EXOIA_API UEnnemyDetector : public UActorComponent
 		TObjectPtr<AActor> target = nullptr;
 	UPROPERTY(EditAnywhere)
 		float minDistance = 10;
+	UPROPERTY(EditAnywhere)
+		float moveSpeed = 1;
+	UPROPERTY(EditAnywhere)
+		bool moveState = false;
 public:	
 	UEnnemyDetector();
 	float GetDistance() { return FVector::Dist(GetOwner()->GetActorLocation(), target->GetActorLocation()); }
-
+	void MovingState(bool _state);
 protected:
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+private:
 
+	void ChaseTarget();
 		
 };
