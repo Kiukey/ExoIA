@@ -7,6 +7,7 @@
 bool UIdleToPatrolTransition::IsValid()
 {
 	waitTime += GetWorld()->DeltaTimeSeconds;
+	UE_LOG(LogTemp, Warning, TEXT("%f %f %f"), waitTime, timeToWait, waitTime / timeToWait);
 	return waitTime > timeToWait;
 }
 

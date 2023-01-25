@@ -3,14 +3,15 @@
 
 #include "ChaseToIdleTransition.h"
 #include "IdleState.h"
+#include "IACharacter.h"
 #include "FSM.h"
 
 bool UChaseToIdleTransition::IsValid()
 {
-    if (!detector)
-        return true;
+    if (!sight)
+        return false;
 
-    return detector->GetDistance() > 250;
+    return !sight->IsInSight();
 }
 
 void UChaseToIdleTransition::CallNext()
@@ -24,5 +25,5 @@ void UChaseToIdleTransition::InitTransition(UFSM* _owner)
 {
     Super::InitTransition(_owner);
 
-    detector = Cast<UEnnemyDetector>(_owner->GetOwner()->GetComponentByClass(UEnnemyDetector::StaticClass()));
+    sight = Cast<AIACharacter>(_owner->GetOwner())->GetSightComponent();
 }

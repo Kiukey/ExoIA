@@ -3,18 +3,14 @@
 
 #include "IdleState.h"
 #include "IdleToPatrolTransition.h"
+#include "PatrolToChaseTransition.h"
 #include "PatrolState.h"
 
 void UIdleState::OnEnter(UFSM* _owner)
 {
-	Super::OnEnter(_owner);
-	//transition = NewObject<UIdleToPatrolTransition>(this);
-	//transition->InitTransition(_owner);
+	transitions.Add(NewObject<UPatrolToChaseTransition>(this));
 	transitions.Add(NewObject<UIdleToPatrolTransition>(this));
-	for (int i = 0; i < transitions.Num(); i++)
-	{
-		transitions[i]->InitTransition(_owner);
-	}
+	Super::OnEnter(_owner);
 	
 	UE_LOG(LogTemp, Warning, TEXT("ENTER IDLE"))
 }
@@ -22,19 +18,6 @@ void UIdleState::OnEnter(UFSM* _owner)
 void UIdleState::OnUpdate()
 {
 	Super::OnUpdate();
-	//if (!transition)
-	//	return;
-	//if (transition->IsValid())
-	//	transition->CallNext();
-	for (int i = 0; i < transitions.Num(); i++)
-	{
-		if (transitions[i]->IsValid())
-		{
-			transitions[i]->CallNext();
-			return;
-		}
-	}
-
 }
 
 void UIdleState::OnExit()
@@ -47,4 +30,12 @@ void UIdleState::DebugState()
 {
 	Super::DebugState();
 	DrawDebugSphere(GetWorld(), owner->GetOwner()->GetActorLocation(), 100, 50, FColor::Blue);
+}
+
+void UIdleState::InitTransitions()
+{
+	for (int i = 0; i < transitions.Num(); i++)
+	{
+		transitions[i]->InitTransition(owner);
+	}
 }

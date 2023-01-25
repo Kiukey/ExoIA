@@ -22,5 +22,6 @@ protected:
 	virtual void OnUpdate() override;
 	virtual void OnExit() override;
 	virtual void DebugState() override;
+	virtual void InitTransitions() override;
 
 };

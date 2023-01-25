@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Waypoint.h"
 #include "IAMovementComponent.generated.h"
 
 
@@ -15,7 +16,7 @@ class EXOIA_API UIAMovementComponent : public UActorComponent
 	UPROPERTY(VisibleAnywhere)
 		TObjectPtr<AActor> owner = nullptr;
 	UPROPERTY(EditAnywhere)
-		TArray<AActor*> positions;
+		TArray<AWaypoint*> positions;
 	UPROPERTY(VisibleAnywhere)
 		int currentPosition = 0;
 	UPROPERTY(EditAnywhere)

@@ -2,6 +2,8 @@
 
 
 #include "IAMovementComponent.h"
+#include "Kismet/KismetMathLibrary.h"
+
 
 #define WORLD GetWorld()
 #define TIME WORLD->DeltaTimeSeconds
@@ -42,7 +44,7 @@ void UIAMovementComponent::MoveToTarget()
 	if (!moveToPositions || positions.IsEmpty())
 		return;
 	
-	FVector _newPosition = FMath::VInterpConstantTo(owner->GetActorLocation(), positions[currentPosition]->GetActorLocation(), TIME, movementSpeed);
+	const FVector _newPosition = FMath::VInterpConstantTo(owner->GetActorLocation(), positions[currentPosition]->GetActorLocation(), TIME, movementSpeed);
 	owner->SetActorLocation(_newPosition);
 
 	if (FVector::Dist(owner->GetActorLocation(), positions[currentPosition]->GetActorLocation()) < 10)
@@ -50,8 +52,16 @@ void UIAMovementComponent::MoveToTarget()
 		currentPosition++;
 		
 		if (IsAtDestination())
+		{
 			StopMoving();
+			return;
+		}
 	}
+	const FRotator _find = UKismetMathLibrary::FindLookAtRotation(positions[currentPosition]->GetActorLocation(), owner->GetActorLocation());
+	FRotator _currentRotation = FMath::RInterpConstantTo(owner->GetActorRotation(), _find, TIME, movementSpeed);
+	_currentRotation.Pitch = 0;
+	_currentRotation.Roll = 0;
+	owner->SetActorRotation(_currentRotation);
 }
 
 void UIAMovementComponent::DebugPositions()

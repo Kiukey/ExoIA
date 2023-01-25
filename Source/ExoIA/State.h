@@ -17,7 +17,7 @@ class EXOIA_API UState : public UObject
 	GENERATED_BODY()
 	
 protected:
-	UPROPERTY() TObjectPtr<UTransition> transition = nullptr;
+	//UPROPERTY() TObjectPtr<UTransition> transition = nullptr;
 	UPROPERTY() TObjectPtr<UFSM> owner = nullptr;
 	UPROPERTY()
 		TArray<UTransition*> transitions;
@@ -28,4 +28,7 @@ public:
 	virtual void OnUpdate();
 	virtual void OnExit();
 	virtual void DebugState();
+	virtual void InitTransitions();
+
+	void CheckForTransition();
 };

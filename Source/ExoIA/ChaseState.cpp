@@ -6,45 +6,38 @@
 
 void UChaseState::OnEnter(UFSM* _owner)
 {
-	Super::OnEnter(_owner);
-
-	detector = Cast<UEnnemyDetector>(_owner->GetOwner()->GetComponentByClass(UEnnemyDetector::StaticClass()));
 
 	transitions.Add(NewObject<UChaseToIdleTransition>(this));
-
-	if (!detector)
-		return;
-
-	for (int i = 0; i < transitions.Num(); i++)
-	{
-		transitions[i]->InitTransition(owner);
-	}
-	detector->MovingState(true);
-
-	UE_LOG(LogTemp, Warning, TEXT("ENTER CHASE STATE"));
+	Super::OnEnter(_owner);
+	InitTransitions();
+	UE_LOG(LogTemp, Warning, TEXT("ENTER DETECT STATE"));
 }
 
 void UChaseState::OnUpdate()
 {
 	Super::OnUpdate();
 	
-	for (int i = 0; i < transitions.Num(); i++)
-	{
-		if (transitions[i]->IsValid())
-			transitions[i]->CallNext();
-	}
 }
 
 void UChaseState::OnExit()
 {
 	Super::OnExit();
-
-	if (!detector)
-		return;
-	detector->MovingState(false);
+	
+	UE_LOG(LogTemp, Warning, TEXT("EXIT DETECT STATE"));
 }
 
 void UChaseState::DebugState()
 {
 	Super::DebugState();
+	if (!owner)
+		return;
+	DrawDebugSphere(GetWorld(), owner->GetOwner()->GetActorLocation(), 100, 50, FColor::Yellow);
+}
+
+void UChaseState::InitTransitions()
+{
+	for (int i = 0; i < transitions.Num(); i++)
+	{
+		transitions[i]->InitTransition(owner);
+	}
 }

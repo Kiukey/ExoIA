@@ -3,28 +3,23 @@
 
 #include "PatrolToChaseTransition.h"
 #include "FSM.h"
+#include "IACharacter.h"
 #include "ChaseState.h"
 
 bool UPatrolToChaseTransition::IsValid()
 {
-	if (!detector)
-		return true;
-
-	return detector->GetDistance() < 200;
+	return sight ? sight->IsInSight() : false;
 }
 
 void UPatrolToChaseTransition::InitTransition(UFSM* _owner)
 {
 	Super::InitTransition(_owner);
-
-	detector = Cast<UEnnemyDetector>(_owner->GetOwner()->GetComponentByClass(UEnnemyDetector::StaticClass()));
+	sight = Cast<AIACharacter>(_owner->GetOwner())->GetSightComponent();
 
 }
 
 void UPatrolToChaseTransition::CallNext()
 {
 	Super::CallNext();
-	//UE_LOG(LogTemp, Warning, TEXT("NEW STATE HERE (CALL NEXT UPATROLTOCHASE"));
 	owner->SetNext<UChaseState>();
-
 }

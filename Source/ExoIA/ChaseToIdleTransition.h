@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Transition.h"
-#include "EnnemyDetector.h"
+#include "DetectSightsComponent.h"
 #include "ChaseToIdleTransition.generated.h"
 
 /**
@@ -15,8 +15,8 @@ class EXOIA_API UChaseToIdleTransition : public UTransition
 {
 	GENERATED_BODY()
 	
-	UPROPERTY(VisibleAnywhere)
-		TObjectPtr<UEnnemyDetector> detector = nullptr;
+	UPROPERTY(EditAnywhere)
+		TObjectPtr<UDetectSightsComponent> sight = nullptr;
 
 protected:
 

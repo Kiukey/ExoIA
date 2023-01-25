@@ -16,8 +16,6 @@ class EXOIA_API UChaseState : public UState
 	GENERATED_BODY()
 private:
 
-	UPROPERTY(VisibleAnywhere)
-		TObjectPtr<UEnnemyDetector> detector = nullptr;
 
 public:
 
@@ -25,4 +23,5 @@ public:
 	virtual void OnUpdate() override;
 	virtual void OnExit() override;
 	virtual void DebugState() override;
+	virtual void InitTransitions() override;
 };

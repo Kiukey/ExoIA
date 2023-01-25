@@ -4,6 +4,7 @@
 #include "PatrolToIdleTransition.h"
 #include "FSM.h"
 #include "IdleState.h"
+#include "IACharacter.h"
 
 bool UPatrolToIdleTransition::IsValid()
 {
@@ -23,6 +24,5 @@ void UPatrolToIdleTransition::CallNext()
 void UPatrolToIdleTransition::InitTransition(UFSM* _owner)
 {
 	Super::InitTransition(_owner);
-
-	iaMovementComponent = Cast<UIAMovementComponent>(_owner->GetOwner()->GetComponentByClass(UIAMovementComponent::StaticClass()));
+	iaMovementComponent = Cast<AIACharacter>(_owner->GetOwner())->GetMovementComponent();
 }
